@@ -47,10 +47,9 @@ public class RestInPeace {
         final HttpServer server = startServer();
         StaticHttpHandler staticHttpHandler = new StaticHttpHandler("src/main/java/com/github/stairch/static");
         server.getServerConfiguration().addHttpHandler(staticHttpHandler, "/static");
-        System.out.println(String.format("Jersey app started with WADL available at "
-                + "%sapplication.wadl\nHit enter to stop it...", BASE_URI));
-       // System.in.read();
-       // server.stop();
+        System.out.println("Your java starter snake is available at " + BASE_URI + "\nHit enter to stop it...");
+        System.in.read();
+        server.stop();
     }
 }
 
