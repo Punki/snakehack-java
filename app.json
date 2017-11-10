@@ -1,0 +1,20 @@
+{
+  "name": "snakehack-java",
+  "description": "snakehack starter kit in java",
+  "keywords": [
+    "snakehack",
+    "stair-ch",
+    "java"
+  ],
+  "website": "https://snakehack.stair.ch/",
+  "repository": "https://github.com/stair-ch/snakehack-java",
+  "buildpacks": [
+    {
+      "url": "https://github.com/heroku/heroku-buildpack-java"
+    },
+    {
+      "url": "heroku/java"
+    }
+  ]
+}
+
