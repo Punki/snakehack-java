@@ -41,7 +41,7 @@ public class Board {
         tiles[p.getX()][p.getY()].setState(state);
     }
 
-    private Tile.State getState(int x, int y){
+    public Tile.State getState(int x, int y){
         return tiles[x][y].getState();
     }
 }

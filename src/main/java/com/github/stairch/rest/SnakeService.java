@@ -94,7 +94,10 @@ public class SnakeService {
         final KillBot killBot = new KillBot();
 
         if (killBot.killOppenent(moveRequestDTO)) {
+            if(board.getState(head.getX()-1,head.getY()) == Tile.State.FREE)
             moveResponse.setMove(Move.left);
+            else if(board.getState(head.getX()+1,head.getY()) == Tile.State.FREE)
+                moveResponse.setMove(Move.right);
         } else if (head.getY() == foodList.get(0).getY()) {
             if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
