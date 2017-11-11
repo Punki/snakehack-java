@@ -15,6 +15,8 @@ import java.util.List;
  */
 public class Board {
     private Tile[][] tiles;
+    private int width;
+    private int height;
     
     public Board(int width, int height){
         tiles = new Tile[width][height];
@@ -23,6 +25,8 @@ public class Board {
                 tiles[x][y] = new Tile();
             }
         }
+        this.width =width;
+        this.height = height;
     }
     
     public void setBoard(List<PointDTO> foods, List<SnakeDTO> snakes){
@@ -49,4 +53,25 @@ public class Board {
         }
         return tiles[x][y].getState();
     }
+
+    public void printBoard(){
+        System.out.println("############################################################################33");
+        for(int x = 0; x < width; x++){
+            for(int y = 0; y < height; y++){
+String tmp = "";
+                if(tiles[y][x].getState() == Tile.State.FOOD){
+                    tmp ="X";
+                }else  if(tiles[y][x].getState() == Tile.State.SNAKE) {
+                    tmp = "S";
+                }else{
+                    tmp="0";
+                }
+                System.out.printf( " "+ tmp + " ");
+            }
+            System.out.println();
+        }
+
+        System.out.println("############################################################################33");
+    }
+
 }
