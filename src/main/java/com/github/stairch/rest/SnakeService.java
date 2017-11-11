@@ -52,11 +52,7 @@ public class SnakeService {
   //  @Produces(MediaType.APPLICATION_JSON)
     @Path("/move")
     public final Response move(final String moveRequest) {
-
-      //  System.out.println(startRequestDTO.getHeight());
-      //  System.out.println(startRequestDTO.getWidth());
-
-        //System.out.println("Get Food as Points " + moveRequest.getFoodAsPoints());
+        MoveRequestDTO m = gson.fromJson(moveRequest, MoveRequestDTO.class);
         System.out.println("ToString"+ moveRequest.toString());
 
         final MoveResponseDTO moveResponse = new MoveResponseDTO();
