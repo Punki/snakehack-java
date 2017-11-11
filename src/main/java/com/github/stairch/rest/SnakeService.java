@@ -65,10 +65,6 @@ public class SnakeService {
 
         board.setBoard(moveRequestDTO.getFoodAsPoints(), moveRequestDTO.getSnakes());
         foodList = moveRequestDTO.getFoodAsPoints();
-        foodList.get(0).getX();
-        foodList.get(0).getY();
-
-
         snakeList = moveRequestDTO.getSnakes();
 
         head = new PointDTO();
@@ -82,14 +78,7 @@ public class SnakeService {
                 head.setY(tmp);
             }
         }
-
-        System.out.println("FoodX: " + foodList.get(0).getX());
-        System.out.println("FoodY: " + foodList.get(0).getY());
-        System.out.println("HeadX: " + head.getX());
-        System.out.println("HeadY: " + head.getY());
-
-
-        //System.out.println("ToString" + moveRequest.toString());
+        
 
         moveResponse = new MoveResponseDTO();
 
