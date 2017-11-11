@@ -42,14 +42,14 @@ public class SnakeService {
         System.out.println(startRequestDTO);
 
         final StartResponseDTO startResponse = new StartResponseDTO();
-        startResponse.setColor("green");
+        startResponse.setColor("red");
         startResponse.setHeadUrl(BASE_URI + "static/head.png");
         startResponse.setName("PunkisSnake");
         startResponse.setTaunt("Meep meep");
 
         startResponse.setHeadType(HeadType.getPixel());
         startResponse.setTailType(TailType.getBlockbum());
-        
+
         board = new Board(startRequestDTO.getWidth(), startRequestDTO.getHeight());
         final String responseBody = gson.toJson(startResponse);
         return Response.status(Response.Status.OK).entity(responseBody).build();
@@ -69,8 +69,8 @@ public class SnakeService {
 
         head = new PointDTO();
         for (int i = 0; i < snakeList.size(); i++) {
-            System.out.println("ID-i:" + snakeList.get(i).getId());
-            System.out.println("My-ID-i:" + moveRequestDTO.getYou());
+            //  System.out.println("ID-i:" + snakeList.get(i).getId());
+            //  System.out.println("My-ID-i:" + moveRequestDTO.getYou());
             if (snakeList.get(i).getId().equals(moveRequestDTO.getYou())) {
                 int tmp = snakeList.get(i).getCoordsAsPoints().get(0).getX();
                 head.setX(tmp);
@@ -78,7 +78,7 @@ public class SnakeService {
                 head.setY(tmp);
             }
         }
-        
+
 
         moveResponse = new MoveResponseDTO();
 
@@ -90,21 +90,40 @@ public class SnakeService {
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
 
+
+    public int[] bestimmeRichtung(PointDTO head) {
+        int[] frei = new int[3];
+        //Rechts Frei?
+        if (board.getState(head.getX() + 1, head.getY()) == Tile.State.FREE) {
+            frei[0] = 1;
+        }
+        //Links Frei?
+        if (board.getState(head.getX() - 1, head.getY()) == Tile.State.FREE) {
+            frei[1] = 1;
+        }
+        //Oben Frei?
+        if (board.getState(head.getX(), head.getY() - 1) == Tile.State.FREE) {
+            frei[2] = 1;
+        }
+        //Unten Frei?
+        if (board.getState(head.getX(), head.getY() + 1) == Tile.State.FREE) {
+            frei[3] = 1;
+        }
+        return frei;
+    }
+
+
     private void move(MoveRequestDTO moveRequestDTO) {
         final KillBot killBot = new KillBot();
+        int[] frei = bestimmeRichtung(head);
 
-        if (killBot.killOppenent(moveRequestDTO)) {
-            if(board.getState(head.getX()-1,head.getY()) == Tile.State.FREE)
-            moveResponse.setMove(Move.left);
-            else if(board.getState(head.getX()+1,head.getY()) == Tile.State.FREE)
-                moveResponse.setMove(Move.right);
-        } else if (head.getY() == foodList.get(0).getY()) {
+        if (head.getY() == foodList.get(0).getY()) {
             if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
             } else {
                 moveResponse.setMove(Move.right);
             }
-        } else {
+        }else {
             if (head.getY() > foodList.get(0).getY()) {
                 moveResponse.setMove(Move.up);
             } else {
@@ -113,4 +132,14 @@ public class SnakeService {
         }
     }
 }
+
+
+
+
+
+
+
+
+
+
 
