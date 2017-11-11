@@ -5,14 +5,11 @@ import com.github.stairch.types.HeadType;
 import com.github.stairch.types.Move;
 import com.github.stairch.types.TailType;
 import com.google.gson.Gson;
-import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.awt.*;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 import static com.github.stairch.RestInPeace.BASE_URI;
 
@@ -58,37 +55,44 @@ public class SnakeService {
         System.out.println(moveRequestDTO.getFoodAsPoints());
 
         List<PointDTO> foodList = moveRequestDTO.getFoodAsPoints();
-        for (int i = 0; i < foodList.size(); i++) {
-            System.out.println(foodList.get(i).getX());
-            System.out.println(foodList.get(i).getY());
-        }
+        foodList.get(0).getX();
+        foodList.get(0).getY();
 
         List<SnakeDTO> snake = moveRequestDTO.getSnakes();
-
 
         PointDTO head = new PointDTO();
         for (int i = 0; i < snake.size(); i++) {
             if (snake.get(i).getId() == moveRequestDTO.getYou()) {
-                for (int j = 0; i < snake.size(); j++) {
-                    int tmp = snake.get(i).getCoordsAsPoints().get(j).getX();
-                    head.setX(tmp);
-                    tmp = snake.get(i).getCoordsAsPoints().get(j).getY();
-                    head.setY(tmp);
-                }
+                int tmp = snake.get(i).getCoordsAsPoints().get(0).getX();
+                head.setX(tmp);
+                tmp = snake.get(i).getCoordsAsPoints().get(0).getY();
+                head.setY(tmp);
             }
         }
 
-            System.out.println("ToString" + moveRequest.toString());
+        //System.out.println("ToString" + moveRequest.toString());
 
-            final MoveResponseDTO moveResponse = new MoveResponseDTO();
+        final MoveResponseDTO moveResponse = new MoveResponseDTO();
+        //moveResponse.setMove(Move.left);
+
+        if (head.getX() > foodList.get(0).getX()) {
             moveResponse.setMove(Move.left);
-
-            // System.out.println(moveResponse.toString());
-
-            final String responseBody = gson.toJson(moveResponse);
-
-
-            return Response.status(Response.Status.OK).entity(responseBody).build();
+        } else {
+            moveResponse.setMove(Move.right);
         }
+        if (head.getY() > foodList.get(0).getY()) {
+            moveResponse.setMove(Move.down);
+        } else {
+            moveResponse.setMove(Move.up);
+        }
+
+
+        // System.out.println(moveResponse.toString());
+
+        final String responseBody = gson.toJson(moveResponse);
+
+
+        return Response.status(Response.Status.OK).entity(responseBody).build();
     }
+}
 
