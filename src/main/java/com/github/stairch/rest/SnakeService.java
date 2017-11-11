@@ -82,7 +82,8 @@ public class SnakeService {
 
         moveResponse = new MoveResponseDTO();
 
-        move(moveRequestDTO);
+        System.out.println("test");
+        move();
 
         final String responseBody = gson.toJson(moveResponse);
 
@@ -112,34 +113,29 @@ public class SnakeService {
         return frei;
     }
 
+    private void move() {
+       // final KillBot killBot = new KillBot();
+        //int[] frei = bestimmeRichtung(this.head);
+        System.out.println("headX: " + head.getX());
+        System.out.println("headY: " + head.getY());
 
-    private void move(MoveRequestDTO moveRequestDTO) {
-        final KillBot killBot = new KillBot();
-        int[] frei = bestimmeRichtung(head);
+        if (this.head.getY() == foodList.get(0).getY()) {
 
-        if (head.getY() == foodList.get(0).getY()) {
+
+
             if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
             } else {
                 moveResponse.setMove(Move.right);
             }
-        }else {
+       }else {
             if (head.getY() > foodList.get(0).getY()) {
                 moveResponse.setMove(Move.up);
             } else {
                 moveResponse.setMove(Move.down);
+
             }
         }
     }
 }
-
-
-
-
-
-
-
-
-
-
 
