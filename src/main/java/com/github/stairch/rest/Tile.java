@@ -10,14 +10,14 @@ package com.github.stairch.rest;
  * @author sandr
  */
 public class Tile {
-    public enum State { FREE, SNACKE, FOOD};
+    public enum State { FREE, SNAKE, FOOD};
     private State state = State.FREE;
     
     public void setState(State state){
         this.state = state;
     }
     
-    public State getFree(){
+    public State getState(){
         return state;
     }
 }

@@ -32,12 +32,16 @@ public class Board {
         
         for(SnakeDTO s : snakes){
             for(PointDTO p : s.getCoordsAsPoints()){
-                setFieldblocked(p, Tile.State.SNACKE);
+                setFieldblocked(p, Tile.State.SNAKE);
             }
         }
     }
     
     private void setFieldblocked(PointDTO p, Tile.State state){
         tiles[p.getX()][p.getY()].setState(state);
+    }
+
+    private Tile.State getState(int x, int y){
+        return tiles[x][y].getState();
     }
 }

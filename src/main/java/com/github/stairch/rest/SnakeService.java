@@ -50,7 +50,7 @@ public class SnakeService {
         startResponse.setHeadType(HeadType.getPixel());
         startResponse.setTailType(TailType.getBlockbum());
         
-        board = new Board(startRequestDTO.getWidth(), startRequestDTO.getWidth());
+        board = new Board(startRequestDTO.getWidth(), startRequestDTO.getHeight());
         final String responseBody = gson.toJson(startResponse);
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
