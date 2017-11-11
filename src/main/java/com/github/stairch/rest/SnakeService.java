@@ -89,13 +89,11 @@ public class SnakeService {
 
         moveResponse = new MoveResponseDTO();
 
-        board.printBoard();
+        board.printBoard(); //Achtung, immer ein Zug zurückliegend
         move();
 
 
         final String responseBody = gson.toJson(moveResponse);
-
-
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
 
@@ -128,26 +126,33 @@ public class SnakeService {
         System.out.println("headY: " + head.getY());
 
 
-        if (head.getX() > foodList.get(0).getX() && board.getState(head.getX() - 1, head.getY()) != Tile.State.SNAKE) {
-            System.out.println("Next move left to X: " + (head.getX() - 1));
+        if (head.getX() > foodList.get(0).getX() && board.getState(head.getX()-1, head.getY()) == Tile.State.FREE ||
+                board.getState(head.getX()-1, head.getY()) == Tile.State.FOOD ) {
             System.out.println("Status: " + board.getState(head.getX() - 1, head.getY()));
+            System.out.println("Move left to X: " + head.getX());
             moveResponse.setMove(Move.left);
         }
-        if (head.getX() < foodList.get(0).getX() && board.getState(head.getX() + 1, head.getY()) != Tile.State.SNAKE) {
-            System.out.println("Next move left to X: " + (head.getX() + 1));
+       else if (head.getX() < foodList.get(0).getX() && board.getState(head.getX() + 1, head.getY()) == Tile.State.FREE ||
+                board.getState(head.getX() + 1, head.getY()) == Tile.State.FOOD){
             System.out.println("Status: " + board.getState(head.getX() + 1, head.getY()));
+        System.out.println("Move right to X: " + head.getX());
+
             moveResponse.setMove(Move.right);
         }
 
 
-        if (head.getY() > foodList.get(0).getY() && board.getState(head.getX(), head.getY() - 1) != Tile.State.SNAKE) {
-            System.out.println("Next move left to Y: " + (head.getY() - 1));
+       else if (head.getY() > foodList.get(0).getY() && board.getState(head.getX(), head.getY() - 1) == Tile.State.FREE ||
+                board.getState(head.getX(), head.getY() - 1) == Tile.State.FOOD ) {
             System.out.println("Status: " + board.getState(head.getX(), head.getY() - 1));
+            System.out.println("Move up to Y: "+head.getY());
+
             moveResponse.setMove(Move.up);
         }
-        if (head.getY() < foodList.get(0).getY() && board.getState(head.getX(), head.getY() + 1) != Tile.State.SNAKE) {
-            System.out.println("Next move left to Y: " + (head.getY() + 1));
-            System.out.println("Status: " + board.getState(head.getX(), head.getY() + 1));
+       else if (head.getY() < foodList.get(0).getY() && (board.getState(head.getX(), head.getY() + 1) == Tile.State.FREE ||
+                board.getState(head.getX(), head.getY() + 1) == Tile.State.FOOD) ) {
+            System.out.println("Status: " + board.getState(head.getX(), head.getY()+1));
+            System.out.println("Move down to Y: " + head.getY());
+
             moveResponse.setMove(Move.down);
 
         }

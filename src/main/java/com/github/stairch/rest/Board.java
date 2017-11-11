@@ -58,8 +58,10 @@ public class Board {
 
     public Tile.State getState(int x, int y) {
         if (x >= tiles.length || x < 0) {
+            System.out.println("Wall!");
             return Tile.State.WALL;
         } else if (y >= tiles.length || y < 0) {
+            System.out.println("Wall!");
             return Tile.State.WALL;
         }
         return tiles[x][y].getState();
