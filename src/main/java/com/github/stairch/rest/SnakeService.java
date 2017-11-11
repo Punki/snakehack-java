@@ -21,6 +21,12 @@ public class SnakeService {
      */
     private final Gson gson = new Gson();
 
+    PointDTO head;
+    List<PointDTO> foodList;
+    List<SnakeDTO> snakeList;
+    MoveResponseDTO moveResponse;
+    MoveResponseDTO lastMoveResponse;
+
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String getIt() {
@@ -54,14 +60,14 @@ public class SnakeService {
         MoveRequestDTO moveRequestDTO = gson.fromJson(moveRequest, MoveRequestDTO.class);
         System.out.println(moveRequestDTO.getFoodAsPoints());
 
-        List<PointDTO> foodList = moveRequestDTO.getFoodAsPoints();
+       foodList = moveRequestDTO.getFoodAsPoints();
         foodList.get(0).getX();
         foodList.get(0).getY();
 
 
-        List<SnakeDTO> snakeList = moveRequestDTO.getSnakes();
+        snakeList = moveRequestDTO.getSnakes();
 
-        PointDTO head = new PointDTO();
+        head = new PointDTO();
         for (int i = 0; i < snakeList.size(); i++) {
             System.out.println("ID-i:"+snakeList.get(i).getId());
             System.out.println("My-ID-i:"+moveRequestDTO.getYou());
@@ -81,12 +87,17 @@ public class SnakeService {
 
         //System.out.println("ToString" + moveRequest.toString());
 
-        final MoveResponseDTO moveResponse = new MoveResponseDTO();
-        //moveResponse.setMove(Move.left);
+        moveResponse = new MoveResponseDTO();
+
+        move();
+
+        final String responseBody = gson.toJson(moveResponse);
 
 
+        return Response.status(Response.Status.OK).entity(responseBody).build();
+    }
 
-
+    private void move(){
         if (head.getY() == foodList.get(0).getY()) {
             if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
@@ -100,13 +111,6 @@ public class SnakeService {
                 moveResponse.setMove(Move.down);
             }
         }
-
-        // System.out.println(moveResponse.toString());
-
-        final String responseBody = gson.toJson(moveResponse);
-
-
-        return Response.status(Response.Status.OK).entity(responseBody).build();
     }
 
 
