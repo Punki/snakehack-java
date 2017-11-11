@@ -42,9 +42,9 @@ public class Board {
     }
 
     public Tile.State getState(int x, int y){
-        if(x > tiles.length){
+        if(x >= tiles.length ||x <0 ){
             return Tile.State.SNAKE;
-        }else if(y > tiles.length){
+        }else if(y >= tiles.length ||y <0 ){
             return Tile.State.SNAKE;
         }
         return tiles[x][y].getState();

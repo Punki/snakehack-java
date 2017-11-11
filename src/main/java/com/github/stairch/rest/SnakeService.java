@@ -120,20 +120,21 @@ public class SnakeService {
 
         if (this.head.getY() == foodList.get(0).getY()) {
 
-            if (head.getX() >= foodList.get(0).getX() &&  board.getState(head.getX()-1, head.getY()) != Tile.State.SNAKE) {
+            if (head.getX() > foodList.get(0).getX() &&  board.getState(head.getX()-1, head.getY()) != Tile.State.SNAKE) {
+                System.out.println("move Left to CoordinatesX: "+ (head.getX()-1)  );
                 moveResponse.setMove(Move.left);
 
 
-            } else if(board.getState(head.getX()+1, head.getY())  != Tile.State.SNAKE) {
+            } else if(board.getState(head.getX()+1, head.getY()) != Tile.State.SNAKE) {
+                System.out.println("move Right to CoordinatesX: "+ (head.getX()+1)  );
                 moveResponse.setMove(Move.right);
 
             }
        }else {
-            if (head.getY() >= foodList.get(0).getY() && board.getState(head.getX(), head.getY()-1)  != Tile.State.SNAKE) {
+            if (head.getY() > foodList.get(0).getY() && board.getState(head.getX(), head.getY()-1)  != Tile.State.SNAKE) {
                 moveResponse.setMove(Move.up);
             } else if(board.getState(head.getX(), head.getY()+1)  != Tile.State.SNAKE) {
                 moveResponse.setMove(Move.down);
-
             }
         }
     }
