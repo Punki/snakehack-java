@@ -20,6 +20,7 @@ public class SnakeService {
      * Used for json serialization/deserialization.
      */
     private final Gson gson = new Gson();
+    private static Board board;
 
     PointDTO head;
     List<PointDTO> foodList;
@@ -48,6 +49,8 @@ public class SnakeService {
 
         startResponse.setHeadType(HeadType.getPixel());
         startResponse.setTailType(TailType.getBlockbum());
+        
+        board = new Board(startRequestDTO.getWidth(), startRequestDTO.getWidth());
         final String responseBody = gson.toJson(startResponse);
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
@@ -60,6 +63,7 @@ public class SnakeService {
         MoveRequestDTO moveRequestDTO = gson.fromJson(moveRequest, MoveRequestDTO.class);
         System.out.println(moveRequestDTO.getFoodAsPoints());
 
+        board.setBoard(moveRequestDTO.getFoodAsPoints(), moveRequestDTO.getSnakes());
         foodList = moveRequestDTO.getFoodAsPoints();
         foodList.get(0).getX();
         foodList.get(0).getY();
