@@ -27,6 +27,8 @@ public class SnakeService {
     List<SnakeDTO> snakeList;
     MoveResponseDTO moveResponse;
     MoveResponseDTO lastMoveResponse;
+    private int width;
+    private int height;
 
     @GET
     @Produces(MediaType.TEXT_PLAIN)
@@ -40,6 +42,8 @@ public class SnakeService {
     @Path("/start")
     public final Response start(final StartRequestDTO startRequestDTO) {
         System.out.println(startRequestDTO);
+        this.width = startRequestDTO.getWidth();
+        this.height = startRequestDTO.getHeight();
 
         final StartResponseDTO startResponse = new StartResponseDTO();
         startResponse.setColor("red");
@@ -50,7 +54,7 @@ public class SnakeService {
         startResponse.setHeadType(HeadType.getPixel());
         startResponse.setTailType(TailType.getBlockbum());
 
-        board = new Board(startRequestDTO.getWidth(), startRequestDTO.getHeight());
+        board = new Board(width, height);
         final String responseBody = gson.toJson(startResponse);
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
@@ -61,12 +65,13 @@ public class SnakeService {
     @Path("/move")
     public final Response move(final String moveRequest) {
         MoveRequestDTO moveRequestDTO = gson.fromJson(moveRequest, MoveRequestDTO.class);
-       // System.out.println("FoodPoint" + moveRequestDTO.getFoodAsPoints());
+        // System.out.println("FoodPoint" + moveRequestDTO.getFoodAsPoints());
+
 
         board.setBoard(moveRequestDTO.getFoodAsPoints(), moveRequestDTO.getSnakes());
+
         foodList = moveRequestDTO.getFoodAsPoints();
         snakeList = moveRequestDTO.getSnakes();
-
 
 
         head = new PointDTO();
@@ -86,6 +91,7 @@ public class SnakeService {
 
         board.printBoard();
         move();
+
 
         final String responseBody = gson.toJson(moveResponse);
 
@@ -124,12 +130,12 @@ public class SnakeService {
 
         if (head.getX() > foodList.get(0).getX() && board.getState(head.getX() - 1, head.getY()) != Tile.State.SNAKE) {
             System.out.println("Next move left to X: " + (head.getX() - 1));
-            System.out.println("Status: " + board.getState(head.getX()-1, head.getY()));
+            System.out.println("Status: " + board.getState(head.getX() - 1, head.getY()));
             moveResponse.setMove(Move.left);
         }
         if (head.getX() < foodList.get(0).getX() && board.getState(head.getX() + 1, head.getY()) != Tile.State.SNAKE) {
-            System.out.println("Next move left to X: "  + (head.getX() + 1));
-            System.out.println("Status: " + board.getState(head.getX()+1, head.getY()));
+            System.out.println("Next move left to X: " + (head.getX() + 1));
+            System.out.println("Status: " + board.getState(head.getX() + 1, head.getY()));
             moveResponse.setMove(Move.right);
         }
 

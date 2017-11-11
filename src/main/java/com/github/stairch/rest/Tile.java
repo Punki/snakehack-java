@@ -10,7 +10,7 @@ package com.github.stairch.rest;
  * @author sandr
  */
 public class Tile {
-    public enum State { FREE, SNAKE, FOOD};
+    public enum State { FREE, SNAKE, FOOD, WALL};
     private State state = State.FREE;
     
     public void setState(State state){
