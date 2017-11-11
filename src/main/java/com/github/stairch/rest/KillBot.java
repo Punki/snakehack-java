@@ -1,3 +1,5 @@
+
+
 package com.github.stairch.rest;
 
 import com.github.stairch.dtos.MoveRequestDTO;
@@ -8,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class KillBot {
-    public void killOppenent(MoveRequestDTO moveRequestDTO) {
+    public Boolean killOppenent(MoveRequestDTO moveRequestDTO) {
 
         //Gibt die Koordinaten der Köpfe zurück
         List<SnakeDTO> snakeList = moveRequestDTO.getSnakes();
@@ -29,12 +31,14 @@ public class KillBot {
                 myHead.setY(tmp);
             }
         }
-        
-
-        //Ist der Gegnerische
-
+        for (int i = 0; i < headsToShoot.size(); i++) {
+            if (headsToShoot.get(i).getY() == (myHead.getY() - 1)) {
+                return true;
+            }
+        }
+        return false;
     }
-
 }
+
 
 

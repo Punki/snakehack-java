@@ -60,7 +60,7 @@ public class SnakeService {
         MoveRequestDTO moveRequestDTO = gson.fromJson(moveRequest, MoveRequestDTO.class);
         System.out.println(moveRequestDTO.getFoodAsPoints());
 
-       foodList = moveRequestDTO.getFoodAsPoints();
+        foodList = moveRequestDTO.getFoodAsPoints();
         foodList.get(0).getX();
         foodList.get(0).getY();
 
@@ -69,8 +69,8 @@ public class SnakeService {
 
         head = new PointDTO();
         for (int i = 0; i < snakeList.size(); i++) {
-            System.out.println("ID-i:"+snakeList.get(i).getId());
-            System.out.println("My-ID-i:"+moveRequestDTO.getYou());
+            System.out.println("ID-i:" + snakeList.get(i).getId());
+            System.out.println("My-ID-i:" + moveRequestDTO.getYou());
             if (snakeList.get(i).getId().equals(moveRequestDTO.getYou())) {
                 int tmp = snakeList.get(i).getCoordsAsPoints().get(0).getX();
                 head.setX(tmp);
@@ -89,7 +89,7 @@ public class SnakeService {
 
         moveResponse = new MoveResponseDTO();
 
-        move();
+        move(moveRequestDTO);
 
         final String responseBody = gson.toJson(moveResponse);
 
@@ -97,14 +97,18 @@ public class SnakeService {
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
 
-    private void move(){
-        if (head.getY() == foodList.get(0).getY()) {
+    private void move(MoveRequestDTO moveRequestDTO) {
+        final KillBot killBot = new KillBot();
+
+        if (killBot.killOppenent(moveRequestDTO)) {
+            moveResponse.setMove(Move.left);
+        } else if (head.getY() == foodList.get(0).getY()) {
             if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
             } else {
                 moveResponse.setMove(Move.right);
             }
-        }else{
+        } else {
             if (head.getY() > foodList.get(0).getY()) {
                 moveResponse.setMove(Move.up);
             } else {
@@ -112,7 +116,5 @@ public class SnakeService {
             }
         }
     }
-
-
 }
 
