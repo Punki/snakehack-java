@@ -61,7 +61,7 @@ public class SnakeService {
     @Path("/move")
     public final Response move(final String moveRequest) {
         MoveRequestDTO moveRequestDTO = gson.fromJson(moveRequest, MoveRequestDTO.class);
-        System.out.println(moveRequestDTO.getFoodAsPoints());
+        System.out.println("FoodPoint" + moveRequestDTO.getFoodAsPoints());
 
         board.setBoard(moveRequestDTO.getFoodAsPoints(), moveRequestDTO.getSnakes());
         foodList = moveRequestDTO.getFoodAsPoints();
@@ -82,7 +82,6 @@ public class SnakeService {
 
         moveResponse = new MoveResponseDTO();
 
-        System.out.println("test");
         move();
 
         final String responseBody = gson.toJson(moveResponse);
@@ -121,17 +120,18 @@ public class SnakeService {
 
         if (this.head.getY() == foodList.get(0).getY()) {
 
-            if (head.getX() > foodList.get(0).getX() &&   board.getState(head.getX()-1, head.getY()) == Tile.State.FREE) {
-
+            if (head.getX() >= foodList.get(0).getX() &&  board.getState(head.getX()-1, head.getY()) != Tile.State.SNAKE) {
                 moveResponse.setMove(Move.left);
-            } else if(board.getState(head.getX()+1, head.getY()) == Tile.State.FREE){
 
+
+            } else if(board.getState(head.getX()+1, head.getY())  != Tile.State.SNAKE) {
                 moveResponse.setMove(Move.right);
+
             }
        }else {
-            if (head.getY() > foodList.get(0).getY() && board.getState(head.getX(), head.getY()-1) == Tile.State.FREE) {
+            if (head.getY() >= foodList.get(0).getY() && board.getState(head.getX(), head.getY()-1)  != Tile.State.SNAKE) {
                 moveResponse.setMove(Move.up);
-            } else if(board.getState(head.getX(), head.getY()+1) == Tile.State.FREE){
+            } else if(board.getState(head.getX(), head.getY()+1)  != Tile.State.SNAKE) {
                 moveResponse.setMove(Move.down);
 
             }
