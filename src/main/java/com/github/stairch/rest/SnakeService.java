@@ -84,6 +84,9 @@ public class SnakeService {
         final MoveResponseDTO moveResponse = new MoveResponseDTO();
         //moveResponse.setMove(Move.left);
 
+
+
+
         if (head.getY() == foodList.get(0).getY()) {
             if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
@@ -105,5 +108,7 @@ public class SnakeService {
 
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
+
+
 }
 
