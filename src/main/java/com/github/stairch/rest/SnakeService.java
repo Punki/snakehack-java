@@ -5,6 +5,7 @@ import com.github.stairch.types.HeadType;
 import com.github.stairch.types.Move;
 import com.github.stairch.types.TailType;
 import com.google.gson.Gson;
+import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -35,9 +36,9 @@ public class SnakeService {
         System.out.println(startRequestDTO);
 
         final StartResponseDTO startResponse = new StartResponseDTO();
-        startResponse.setColor("black");
+        startResponse.setColor("green");
         startResponse.setHeadUrl(BASE_URI + "static/head.png");
-        startResponse.setName("STAIR Java Snake");
+        startResponse.setName("PunkisSnake");
         startResponse.setTaunt("Meep meep");
 
         startResponse.setHeadType(HeadType.getPixel());
@@ -47,17 +48,26 @@ public class SnakeService {
     }
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
+  //  @Consumes(MediaType.APPLICATION_JSON)
+  //  @Produces(MediaType.APPLICATION_JSON)
     @Path("/move")
-    public final Response move(final StartRequestDTO startRequestDTO) {
-        System.out.println(startRequestDTO);
+    public final Response move(final String moveRequest) {
+
+      //  System.out.println(startRequestDTO.getHeight());
+      //  System.out.println(startRequestDTO.getWidth());
+
+        //System.out.println("Get Food as Points " + moveRequest.getFoodAsPoints());
+        System.out.println("ToString"+ moveRequest.toString());
 
         final MoveResponseDTO moveResponse = new MoveResponseDTO();
         moveResponse.setMove(Move.left);
 
+       // System.out.println(moveResponse.toString());
 
         final String responseBody = gson.toJson(moveResponse);
+
+
+
         return Response.status(Response.Status.OK).entity(responseBody).build();
     }
 }
