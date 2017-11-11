@@ -93,7 +93,7 @@ public class SnakeService {
 
 
     public int[] bestimmeRichtung(PointDTO head) {
-        int[] frei = new int[3];
+        int[] frei = new int[4];
         //Rechts Frei?
         if (board.getState(head.getX() + 1, head.getY()) == Tile.State.FREE) {
             frei[0] = 1;
@@ -115,23 +115,23 @@ public class SnakeService {
 
     private void move() {
        // final KillBot killBot = new KillBot();
-        //int[] frei = bestimmeRichtung(this.head);
+      //  int[] frei = bestimmeRichtung(this.head);
         System.out.println("headX: " + head.getX());
         System.out.println("headY: " + head.getY());
 
         if (this.head.getY() == foodList.get(0).getY()) {
 
+            if (head.getX() > foodList.get(0).getX() &&   board.getState(head.getX()-1, head.getY()) == Tile.State.FREE) {
 
-
-            if (head.getX() > foodList.get(0).getX()) {
                 moveResponse.setMove(Move.left);
-            } else {
+            } else if(board.getState(head.getX()+1, head.getY()) == Tile.State.FREE){
+
                 moveResponse.setMove(Move.right);
             }
        }else {
-            if (head.getY() > foodList.get(0).getY()) {
+            if (head.getY() > foodList.get(0).getY() && board.getState(head.getX(), head.getY()-1) == Tile.State.FREE) {
                 moveResponse.setMove(Move.up);
-            } else {
+            } else if(board.getState(head.getX(), head.getY()+1) == Tile.State.FREE){
                 moveResponse.setMove(Move.down);
 
             }
